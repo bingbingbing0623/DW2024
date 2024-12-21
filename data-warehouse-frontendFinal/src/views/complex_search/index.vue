@@ -2,49 +2,83 @@
   <div class="app-container">
     <!-- 查询条件部分居中显示 -->
     <el-row justify="center" style="padding-top: 5vh">
-      <el-col :span="14">
-        <el-form ref="form" :model="form" label-width="120px" class="query-form">
-          <el-form-item label="上映时间">
+      <el-col :span="20">
+        <el-form ref="form" :model="form" label-width="200px" class="query-form">
+          <el-form-item label="上映时间(按年份查询)">
             <el-row gutter={20}>
               <!-- 年份输入 -->
               <el-col :span="8">
                 <el-input-number v-model="form.year" size="mini" :max="2022" :min="1930" controls-position="right"
                   style="width: 100%" placeholder="选择年份" />
               </el-col>
-
-              <!-- 月份或季度选择 -->
-              <el-col :span="8">
-                <el-select v-model="form.month_season" size="mini" placeholder="选择月份/季度" style="width: 100%">
-                  <el-option label="月份" value="month"></el-option>
-                  <el-option label="季度" value="season"></el-option>
-                  <el-option label="无" value=""></el-option>
-                </el-select>
-                <el-input-number v-model="form.month" v-if="form.month_season == 'month'" size="mini" :max="12" :min="1"
-                  controls-position="right" style="width: 100%" placeholder="选择月份" />
-                <el-input-number v-model="form.season" v-if="form.month_season == 'season'" size="mini" :min="1" :max="4"
-                  controls-position="right" style="width: 100%" placeholder="选择季度" />
-              </el-col>
-
-              <!-- 天数或周几选择 -->
-              <el-col :span="8">
-                <el-select v-model="form.day_weekday" size="mini" placeholder="选择天数/周几" style="width: 100%">
-                  <el-option label="天数" value="day"></el-option>
-                  <el-option label="周几" value="weekday"></el-option>
-                  <el-option label="无" value=""></el-option>
-                </el-select>
-                <el-input-number v-model="form.day" v-if="form.day_weekday == 'day'" size="mini" :min="1" :max="31"
-                  controls-position="right" style="width: 100%" placeholder="选择天数" />
-                <el-input-number v-model="form.weekday" v-if="form.day_weekday == 'weekday'" size="mini" :min="1" :max="7"
-                  controls-position="right" style="width: 100%" placeholder="选择周几" />
-              </el-col>
             </el-row>
           </el-form-item>
-        </el-form>
-        
-        <!-- 查询按钮居中显示 -->
-        <div style="text-align: center; margin-top: 20px">
-          <el-button type="primary" @click="search(form)" size="small" plain>查询</el-button>
+          <div style="text-align: center; margin-top: 20px">
+          <el-button type="primary" @click="searchYear(form)" size="small" plain>查询</el-button>
         </div>
+          
+        </el-form>
+
+        <!--按月份选择-->
+        <el-form ref="form2" :model="form2" label-width="200px" class="queryMonth-form">
+          <el-form-item label="上映时间(按月份查询)">
+            <el-row gutter={20}>
+              <el-col :span="8">
+                <el-input-number v-model="form2.year" size="mini" :max="2022" :min="1930" controls-position="right"
+                  style="width: 100%" placeholder="选择年份" />
+              </el-col>
+              <el-form-item label="月份选择：">
+              <el-col :span="8">
+                <el-input-number v-model="form2.month" size="mini" :max="12" :min="1" controls-position="right"
+                  style="width: 100%" placeholder="选择月份" />
+              </el-col>
+            </el-form-item>
+            </el-row>
+          </el-form-item>
+          <div style="text-align: center; margin-top: 20px">
+          <el-button type="primary" @click="searchMonth(form2)" size="small" plain>查询</el-button>
+        </div>
+        </el-form>
+          <!--按季度份选择-->
+        <el-form ref="form3" :model="form3" label-width="200px" class="querySeason-form">
+          <el-form-item label="上映时间(按季度查询)">
+            <el-row gutter={20}>
+              <el-col :span="8">
+                <el-input-number v-model="form3.year" size="mini" :max="2022" :min="1930" controls-position="right"
+                  style="width: 100%" placeholder="选择年份" />
+              </el-col>
+              <el-form-item label="季度选择：">
+              <el-col :span="8">
+                <el-input-number v-model="form3.season" size="mini" :max="4" :min="1" controls-position="right"
+                  style="width: 100%" placeholder="选择季度" />
+              </el-col>
+            </el-form-item>
+            </el-row>
+          </el-form-item>
+          <div style="text-align: center; margin-top: 20px">
+          <el-button type="primary" @click="searchSeason(form3)" size="small" plain>查询</el-button>
+        </div>
+        </el-form>
+
+        <el-form ref="form4" :model="form4" label-width="200px" class="queryWeek-form">
+          <el-form-item label="上映时间(按周查询)">
+            <el-row gutter={20}>
+              <el-col :span="8">
+                <el-input-number v-model="form4.year" size="mini" :max="2022" :min="1930" controls-position="right"
+                  style="width: 100%" placeholder="选择年份" />
+              </el-col>
+              <el-form-item label="周几选择：">
+              <el-col :span="8">
+                <el-input-number v-model="form4.weekday" size="mini" :max="7" :min="1" controls-position="right"
+                  style="width: 100%" placeholder="选择周几" />
+              </el-col>
+            </el-form-item>
+            </el-row>
+          </el-form-item>
+          <div style="text-align: center; margin-top: 20px">
+          <el-button type="primary" @click="searchWeekday(form4)" size="small" plain>查询</el-button>
+        </div>
+        </el-form>
       </el-col>
     </el-row>
 
@@ -55,15 +89,42 @@
           <h3>查询结果</h3>
           <el-table :data="result" v-loading="isLoading" element-loading-text="正在为您查询..." stripe style="width: 100%"
             height="450">
-            <el-table-column prop="movieId" label="编号" width="115" v-if="columns.movieId" />
-            <el-table-column prop="movieRating" label="评分" width="80" v-if="columns.movieScore" />
-            <el-table-column prop="movieGenre" label="类型" width="120" v-if="columns.genre" />
-            <el-table-column prop="movieReviewNum" label="评论数量" width="120" v-if="columns.reviewnum" />
+            <!-- 电影名称 -->
+            <el-table-column prop="movieTitle" label="电影名称" width="150" />
+                
+                <!-- 电影编号 -->
+                <el-table-column prop="movieId" label="编号" width="130" />
+                
+                <!-- 评分 -->
+                <el-table-column prop="movieRating" label="评分" width="100" />
+                
+                <!-- 评论数量 -->
+                <el-table-column prop="movieReviewNum" label="评论数量" width="120" />
+                
+                <!-- 类型 -->
+                <el-table-column prop="movieGenre" label="类型" width="200" />
+                
+                <!-- 发布日期 -->
+                <el-table-column prop="movieDate" label="发布日期" width="120" />
+                
+                <!-- 语言 -->
+                <el-table-column prop="movieLanguage" label="语言" width="120" />
+                
+                <!-- 适合年龄 -->
+                <el-table-column prop="movieAge" label="适合年龄" width="120" />
+                
+                <!-- 时长 -->
+                <el-table-column prop="movieRunTime" label="时长" width="100" />
+                
+                <!-- 媒体格式 -->
+                <el-table-column prop="movieMediaFormat" label="媒体格式" width="140" />
+                
+                <!-- 电影公司 -->
+                <el-table-column prop="movieStudio" label="电影公司" width="160" />
+                
+                <!-- 版本 -->
+                <el-table-column prop="movieEdition" label="版本" width="120" />
           </el-table>
-          <el-row style="text-align: center; margin-top: 20px">
-            <el-pagination layout="prev, pager, next, jumper" :current-page.sync="currentPage" :page-size="10"
-              :page-count="totalPage" @current-change="getNewPage(form)" small />
-          </el-row>
         </div>
       </el-col>
 
@@ -83,29 +144,44 @@
 <script>
 export default {
   name: "timeSearch",
+
   data() {
     return {
       activeName: "search_res",
       isLoading: false,
       totalPage: 10,
       currentPage: 1,
+      neo4j_speed:0,
       mysql_speed: 0,
       spark_speed: 0,
       form: {
+      year: null,
+      },
+      form2: {
         year: null,
         month: null,
+      },
+      form3: {
+        year: null,
         season: null,
-        day: null,
+      },
+      form4: {
+        year: null,
         weekday: null,
-        columns: [],
-        month_season: "",
-        day_weekday: "",
       },
       columns: {
         movieId: true,
-      movieScore: true,
-      genre: true,
-      reviewnum: true
+        movieScore: true,
+        genre: true,
+        reviewnum: true,
+        movieTitle: true,
+        movieDate: true,
+        movieLanguage: true,
+        movieAge: true,
+        movieRunTime: true,
+        movieMediaFormat: true,
+        movieStudio: true,
+        movieEdition: true,
       },
       result: [],
       test: "",
@@ -118,6 +194,12 @@ export default {
 
   watch: {
     //监听速度变化，重新渲染页面
+    neo4j_speed: {
+      handler(newValue, oldValue) {
+        this.neo4j_speed = newValue;
+        this.echartsInit();
+      },
+    },
     mysql_speed: {
       handler(newValue, oldValue) {
         this.mysql_speed = newValue;
@@ -139,6 +221,120 @@ export default {
 
     handleClick(tab, event) {
       console.log(tab, event);
+    },
+
+    searchYear(form) {
+        this.isLoading = true;
+        console.log(form.year);
+        //调用neo4j查询
+        this.$axios
+          .get("/neo4j/actors/year", {
+            params:
+            {year: form.year,
+            page: 1,
+            per_page: 10,}
+          })
+          .then((res) => {
+            console.log("这是neo4j的结果", res);
+            this.result=res.movieList;
+            this.neo4j_speed = res.time;
+            this.isLoading=false;
+          })
+          .catch((err) => {
+            this.$message.error("当前neo4j网络异常，请稍后再试");
+          });
+    },
+    searchMonth(form2) {
+        this.isLoading = true;
+        console.log(form2.year);
+        // 创建一个映射，数字对应月份的英文缩写
+        const monthMap = {
+          1: 'Jan', 2: 'Feb', 3: 'Mar', 4: 'Apr', 5: 'May', 6: 'Jun',
+          7: 'Jul', 8: 'Aug', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dec'
+        };
+              // 检查用户输入的月份并转换为英文缩写
+        const monthAbbreviation = monthMap[form2.month] || '';
+
+        console.log(form2.year, monthAbbreviation); // 输出调试信息
+              //调用neo4j查询
+        this.$axios
+          .get("/neo4j/actors/month", {   
+            params:
+            {year: form2.year,
+            month:monthAbbreviation,
+            page: 1,
+            per_page: 10,}
+          })
+          .then((res) => {
+            console.log("这是neo4j的结果", res);
+            this.result=res.movieList;
+            this.neo4j_speed = res.time;
+            this.isLoading=false;
+          })
+          .catch((err) => {
+            this.$message.error("当前neo4j网络异常，请稍后再试");
+          });
+    },
+    searchSeason(form3) {
+      this.isLoading = true;
+
+      // 映射季度到月份
+      const seasonMap = {
+        1: ['Jan', 'Feb', 'Mar'],
+        2: ['Apr', 'May', 'Jun'],
+        3: ['Jul', 'Aug', 'Sep'],
+        4: ['Oct', 'Nov', 'Dec']
+      };
+
+      // 获取对应季度的月份
+      const months = seasonMap[form3.season] || [];
+
+      console.log(form3.year, form3.season, months); // 输出调试信息
+       // 将月份数组转换为逗号分隔的字符串
+      const seasonParam = months.join(',');
+
+      // 调用neo4j查询
+      this.$axios
+        .get("/neo4j/actors/season", {
+          params: {
+            year: form3.year,
+            season: seasonParam,  // 传递季度对应的月份数组
+            page: 1,
+            per_page: 10
+          }
+        })
+        .then((res) => {
+          console.log("这是neo4j的结果", res);
+          this.result = res.movieList;
+          this.neo4j_speed = res.time;
+          this.isLoading = false;
+        })
+        .catch((err) => {
+          this.$message.error("当前neo4j网络异常，请稍后再试");
+        });
+    },
+
+    searchWeekday(form4) {
+        this.isLoading = true;
+        console.log(form4.year);
+        //调用neo4j查询
+        this.$axios
+          .get("/neo4j/actors/weekday", {   
+            params:
+            {year: form4.year,
+              weekday:form4.weekday,
+            page: 1,
+            per_page: 10,}
+          })
+          .then((res) => {
+            console.log("这是neo4j的结果", res);
+            this.result=res.movieList;
+            this.neo4j_speed = res.time;
+            this.isLoading=false;
+          })
+          .catch((err) => {
+            this.$message.error("当前neo4j网络异常，请稍后再试");
+          });
     },
 
     search(form) {
@@ -296,109 +492,61 @@ export default {
       console.log("切换页面");
       console.log("当前页数", this.currentPage);
       this.isLoading = true;
-      if (form.columns.length == 0) {
-        this.$message.warning("请至少输入一个条件!");
-      } else {
-        //判断年份是否为空
-        if (form.year == 1930) {
-          console.log("year为空");
-          form.year = null;
-          console.log(form.year);
-        } else {
-          console.log(form.year);
-        }
+        // this.$axios
+        //   .post("/movie/detail", {
+        //     genre_name: form.genre,
+        //     min_score: form.min_score,
+        //     max_score: form.max_score,
+        //     columns: form.columns,
+        //     title: form.title,
+        //     director: form.director,
+        //     actor: form.actor,
+        //     year: form.year,
+        //     month: form.month,
+        //     season: form.season,
+        //     weekday: form.weekday,
+        //     day: form.day,
+        //     positive: form.positive / 100,
+        //     page: this.currentPage,
+        //     per_page: 10,
+        //   })
+        //   .then((res) => {
+        //     console.log("这是mysql的结果", res);
+        //     console.log("data", res.data);
+        //     this.result = res.data;
+        //     console.log(this.result);
+        //     this.isLoading = false;
+        //     this.mysql_speed = res.consuming_time;
+        //   })
+        //   .catch((err) => {
+        //     this.$message.error("当前mysql网络异常，请稍后再试");
+        //   });
 
-        //判断月份或季度
-        if (form.month_season == "") {
-          console.log("月份季度为空");
-          form.month = null;
-          form.season = null;
-        } else if (form.month_season == "month") {
-          console.log("选择月份");
-          form.season = null;
-        } else if ((form.month_season = "season")) {
-          console.log("选择季度");
-          form.month = null;
-        }
-
-        //判断天数或星期几
-        if (form.day_weekday == "") {
-          console.log("天数为空");
-          form.day = null;
-          form.weekday = null;
-        } else if (form.day_weekday == "day") {
-          console.log("选择天数");
-          form.weekday = null;
-        } else if ((form.day_weekday = "weekday")) {
-          console.log("选择周几");
-          form.day = null;
-        }
-        console.log("这是原始条件", form.columns);
-        for (var i = 0; i < form.columns.length; i++) {
-          this.columns[form.columns[i]] = true;
-          console.log(
-            "这是条件",
-            form.columns[i],
-            this.columns[form.columns[i]]
-          );
-        }
-        this.$axios
-          .post("/movie/detail", {
-            genre_name: form.genre,
-            min_score: form.min_score,
-            max_score: form.max_score,
-            columns: form.columns,
-            title: form.title,
-            director: form.director,
-            actor: form.actor,
-            year: form.year,
-            month: form.month,
-            season: form.season,
-            weekday: form.weekday,
-            day: form.day,
-            positive: form.positive / 100,
-            page: this.currentPage,
-            per_page: 10,
-          })
-          .then((res) => {
-            console.log("这是mysql的结果", res);
-            console.log("data", res.data);
-            this.result = res.data;
-            console.log(this.result);
-            this.isLoading = false;
-            this.mysql_speed = res.consuming_time;
-          })
-          .catch((err) => {
-            this.$message.error("当前mysql网络异常，请稍后再试");
-          });
-
-          //调用hive查询
-        this.$axios
-          .post("/hive/movie/detail", {
-            genre_name: form.genre,
-            min_score: form.min_score,
-            max_score: form.max_score,
-            columns: form.columns,
-            title: form.title,
-            director: form.director,
-            actor: form.actor,
-            year: form.year,
-            month: form.month,
-            season: form.season,
-            weekday: form.weekday,
-            day: form.day,
-            page: this.currentPage,
-            per_page: 10,
-          })
-          .then((res) => {
-            console.log("这是spark的结果", res);
-            this.spark_speed = res.consuming_time;
-          })
-          .catch((err) => {
-            this.$message.error("当前spark网络异常，请稍后再试");
-          });
-
-      }
+        //   //调用hive查询
+        // this.$axios
+        //   .post("/hive/movie/detail", {
+        //     genre_name: form.genre,
+        //     min_score: form.min_score,
+        //     max_score: form.max_score,
+        //     columns: form.columns,
+        //     title: form.title,
+        //     director: form.director,
+        //     actor: form.actor,
+        //     year: form.year,
+        //     month: form.month,
+        //     season: form.season,
+        //     weekday: form.weekday,
+        //     day: form.day,
+        //     page: this.currentPage,
+        //     per_page: 10,
+        //   })
+        //   .then((res) => {
+        //     console.log("这是spark的结果", res);
+        //     this.spark_speed = res.consuming_time;
+        //   })
+        //   .catch((err) => {
+        //     this.$message.error("当前spark网络异常，请稍后再试");
+        //   });
     },
 
     echartsInit() {
@@ -410,15 +558,14 @@ export default {
         },
         tooltip: {},
         xAxis: {
-          data: ["mysql", "hive"],
+          data: ["mysql", "hive","neo4j"],
         },
         yAxis: {},
         series: [
           {
             name: "查询耗时(s)",
             type: "bar",
-            // data: [this.mysql_speed, this.spark_speed],
-            data: [this.mysql_speed, this.spark_speed],
+            data: [this.mysql_speed, this.spark_speed,this.neo4j_speed],
           },
         ],
       });

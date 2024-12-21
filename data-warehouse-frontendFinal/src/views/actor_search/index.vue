@@ -22,11 +22,41 @@
         <el-card shadow="always" class="result-card">
           <h3 style="text-align: center; margin-bottom: 20px">查询结果</h3>
           <el-table :data="result" v-loading="isLoading" element-loading-text="正在为您查询..." stripe style="width: 100%" height="450">
-            <el-table-column prop="movieTitle" label="电影名称" width="120" v-if="columns.movieTitle" />
-            <el-table-column prop="movieId" label="编号" width="115" v-if="columns.movieId" />
-            <el-table-column prop="movieRating" label="评分" width="80" v-if="columns.movieScore" />
-            <el-table-column prop="movieGenre" label="类型" width="120" v-if="columns.genre" />
-            <el-table-column prop="movieReviewNum" label="评论数量" width="120" v-if="columns.reviewnum" />
+            <!-- 电影名称 -->
+            <el-table-column prop="movieTitle" label="电影名称" width="150" />
+                
+                <!-- 电影编号 -->
+                <el-table-column prop="movieId" label="编号" width="130" />
+                
+                <!-- 评分 -->
+                <el-table-column prop="movieRating" label="评分" width="100" />
+                
+                <!-- 评论数量 -->
+                <el-table-column prop="movieReviewNum" label="评论数量" width="120" />
+                
+                <!-- 类型 -->
+                <el-table-column prop="movieGenre" label="类型" width="200" />
+                
+                <!-- 发布日期 -->
+                <el-table-column prop="movieDate" label="发布日期" width="120" />
+                
+                <!-- 语言 -->
+                <el-table-column prop="movieLanguage" label="语言" width="120" />
+                
+                <!-- 适合年龄 -->
+                <el-table-column prop="movieAge" label="适合年龄" width="120" />
+                
+                <!-- 时长 -->
+                <el-table-column prop="movieRunTime" label="时长" width="100" />
+                
+                <!-- 媒体格式 -->
+                <el-table-column prop="movieMediaFormat" label="媒体格式" width="140" />
+                
+                <!-- 电影公司 -->
+                <el-table-column prop="movieStudio" label="电影公司" width="160" />
+                
+                <!-- 版本 -->
+                <el-table-column prop="movieEdition" label="版本" width="120" />
             
           </el-table>
           <el-row style="text-align: center; margin-top: 20px">
@@ -63,12 +93,19 @@ export default {
         columns: ["actors"],
       },
       columns: {
-      movieId: true,
-      movieScore: true,
-      genre: true,
-      reviewnum: true,
-      movieTitle:true
-    },
+        movieId: true,
+        movieScore: true,
+        genre: true,
+        reviewnum: true,
+        movieTitle: true,
+        movieDate: true,
+        movieLanguage: true,
+        movieAge: true,
+        movieRunTime: true,
+        movieMediaFormat: true,
+        movieStudio: true,
+        movieEdition: true,
+      },
       result: [],
     };
   },
